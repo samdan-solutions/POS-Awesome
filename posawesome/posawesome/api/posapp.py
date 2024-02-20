@@ -145,7 +145,8 @@ def get_items(pos_profile, price_list=None):
             has_batch_no,
             has_serial_no,
             max_discount,
-            brand
+            brand,
+            rack_location
         FROM
             `tabItem`
         WHERE
@@ -178,9 +179,18 @@ def get_items(pos_profile, price_list=None):
         for d in item_prices_data:
             item_prices.setdefault(d.item_code, {})
             item_prices[d.item_code][d.get("uom") or "None"] = d
-
+        warehouse = pos_profile.get("warehouse")
         for item in items_data:
             item_code = item.item_code
+
+            incoming_rate = 0
+            if frappe.db.exists("Stock Ledger Entry", {"item_code":item_code, "warehouse":warehouse}):
+                incoming_rate = frappe.get_last_doc("Stock Ledger Entry", {"item_code":item_code, "warehouse":warehouse}).incoming_rate
+            # Get valuation rate from Bin
+            bin_ivr = 0
+            if frappe.db.exists("Bin", {"item_code":item_code, "warehouse":warehouse}):
+                bin_ivr = frappe.get_last_doc("Bin", {"item_code":item_code, "warehouse":warehouse}).valuation_rate
+
             item_price = {}
             if item_prices.get(item_code):
                 item_price = (
@@ -231,10 +241,11 @@ def get_items(pos_profile, price_list=None):
                         "serial_no_data": serial_no_data or [],
                         "attributes": attributes or "",
                         "item_attributes": item_attributes or "",
+                        "incoming_rate": incoming_rate,
+                        "bin_ivr":bin_ivr
                     }
                 )
                 result.append(row)
-
     return result
 
 
@@ -785,13 +796,13 @@ def get_items_details(pos_profile, items_data):
                                     "btach_price": batch_doc.posa_btach_price,
                                 }
                             )
-            incoming_rate = 0
-            if frappe.db.exists("Stock Ledger Entry", {"item_code":item_code, "warehouse":warehouse}):
-                incoming_rate = frappe.get_last_doc("Stock Ledger Entry", {"item_code":item_code, "warehouse":warehouse}).incoming_rate
-            # Get valuation rate from Bin
-            bin_ivr = 0
-            if frappe.db.exists("Bin", {"item_code":item_code, "warehouse":warehouse}):
-                bin_ivr = frappe.get_last_doc("Bin", {"item_code":item_code, "warehouse":warehouse}).valuation_rate
+            # incoming_rate = 0
+            # if frappe.db.exists("Stock Ledger Entry", {"item_code":item_code, "warehouse":warehouse}):
+            #     incoming_rate = frappe.get_last_doc("Stock Ledger Entry", {"item_code":item_code, "warehouse":warehouse}).incoming_rate
+            # # Get valuation rate from Bin
+            # bin_ivr = 0
+            # if frappe.db.exists("Bin", {"item_code":item_code, "warehouse":warehouse}):
+            #     bin_ivr = frappe.get_last_doc("Bin", {"item_code":item_code, "warehouse":warehouse}).valuation_rate
             row = {}
             row.update(item)
             row.update(
@@ -804,8 +815,8 @@ def get_items_details(pos_profile, items_data):
                     "has_serial_no": has_serial_no,
                     "item_tax_rate" : item_tax_rate,
                     "included_in_print_rate":included_in_print_rate,
-                    "incoming_rate": incoming_rate,
-                    "bin_ivr":bin_ivr
+                    # "incoming_rate": incoming_rate,
+                    # "bin_ivr":bin_ivr
                 }
             )
 

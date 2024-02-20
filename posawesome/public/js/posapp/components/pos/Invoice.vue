@@ -209,12 +209,20 @@
             <template v-slot:item.item_tax_amount="{ item }">{{
               formtCurrency(item.qty * item.item_tax_amount)
             }}</template>
-            <template v-slot:item.posa_is_offer="{ item }">
+             
+             <template v-slot:item.incoming_rate="{ item }">{{
+              formtCurrency(item.incoming_rate)
+            }}</template>
+            <template v-slot:item.rack_location="{ item }">{{
+              item.rack_location
+            }}</template>
+
+            <!-- <template v-slot:item.posa_is_offer="{ item }">
               <v-simple-checkbox
                 :value="!!item.posa_is_offer || !!item.posa_is_replace"
                 disabled
               ></v-simple-checkbox>
-            </template>
+            </template> -->
 
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length" class="ma-0 pa-0">
@@ -882,6 +890,8 @@ export default {
         { text: __('Rate'), value: 'rate', align: 'center' },
         { text: __('Tax'), value: 'item_tax_amount', align: 'center' },
         { text: __('Amount'), value: 'amount', align: 'center' },
+        { text: __('Lst. In. Rate'), value: 'incoming_rate', align: 'center' },
+        { text: __('Rack'), value: 'rack_location', align: 'center' },
         // { text: __('is Offer'), value: 'posa_is_offer', align: 'center' },
       ],
     };

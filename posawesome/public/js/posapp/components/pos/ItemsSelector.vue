@@ -379,6 +379,7 @@ export default {
               item.item_tax_rate = updated_item.item_tax_rate;
               item.included_in_print_rate = updated_item.included_in_print_rate
               item.incoming_rate = updated_item.incoming_rate
+              item.rack_location = updated_item.rack_location
               item.bin_ivr = updated_item.bin_ivr
               if (vm.pos_profile.posa_tax_inclusive && updated_item.included_in_print_rate){
                 let tax_rate = updated_item.item_tax_rate/100

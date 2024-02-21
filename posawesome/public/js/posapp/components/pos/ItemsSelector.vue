@@ -501,6 +501,19 @@ export default {
             });
           }
         }
+       
+      }
+      if (filtred_list.length == 1) {
+        filtred_list = filtred_group_list.filter((item) => {
+          let found = false;
+          for (let element of item.item_alternatives) {
+            if (element.item == filtred_list[0].item_code) {             
+              found = true;
+              break;
+            }
+          }
+          return found;
+        });
       }
       if (
         this.pos_profile.posa_show_template_items &&

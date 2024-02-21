@@ -203,6 +203,11 @@ def get_items(pos_profile, price_list=None):
                 filters={"parent": item_code},
                 fields=["barcode", "posa_uom"],
             )
+            item_alternatives = frappe.get_all(
+                "Alternative Items",
+                filters={"parent": item_code},
+                fields=["item","parent"],
+            )
             serial_no_data = []
             if pos_profile.get("posa_search_serial_no"):
                 serial_no_data = frappe.get_all(
@@ -237,6 +242,7 @@ def get_items(pos_profile, price_list=None):
                         "currency": item_price.get("currency")
                         or pos_profile.get("currency"),
                         "item_barcode": item_barcode or [],
+                        "item_alternatives":item_alternatives or [],
                         "actual_qty": 0,
                         "serial_no_data": serial_no_data or [],
                         "attributes": attributes or "",

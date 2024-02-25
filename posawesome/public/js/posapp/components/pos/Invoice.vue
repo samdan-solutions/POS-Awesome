@@ -210,8 +210,8 @@
               formtCurrency(item.qty * item.item_tax_amount)
             }}</template>
              
-             <template v-slot:item.incoming_rate="{ item }">{{
-              formtCurrency(item.incoming_rate)
+             <template v-slot:item.inc_rate="{ item }">{{
+              formtCurrency(item.inc_rate)
             }}</template>
             <template v-slot:item.rack_location="{ item }">{{
               item.rack_location
@@ -449,7 +449,7 @@
                       :label="frappe._('Last Incoming Rate')"
                       background-color="white"
                       hide-details
-                      v-model="item.incoming_rate"
+                      v-model="item.inc_rate"
                       disabled
                     ></v-text-field>
                   </v-col>
@@ -890,7 +890,7 @@ export default {
         { text: __('Rate'), value: 'rate', align: 'center' },
         { text: __('Tax'), value: 'item_tax_amount', align: 'center' },
         { text: __('Amount'), value: 'amount', align: 'center' },
-        { text: __('Lst. In. Rate'), value: 'incoming_rate', align: 'center' },
+        { text: __('Lst. In. Rate'), value: 'inc_rate', align: 'center' },
         { text: __('Rack'), value: 'rack_location', align: 'center' },
         // { text: __('is Offer'), value: 'posa_is_offer', align: 'center' },
       ],
@@ -1485,6 +1485,8 @@ export default {
               item.item_uoms = updated_item.item_uoms;
               item.has_batch_no = updated_item.has_batch_no;
               item.has_serial_no = updated_item.has_serial_no;
+              item.inc_rate = updated_item.inc_rate;
+              item.bin_ivr = updated_item.bin_ivr;
               item.item_tax_rate = updated_item.item_tax_rate;
               item.included_in_print_rate = updated_item.included_in_print_rate
               if (updated_item.included_in_print_rate){

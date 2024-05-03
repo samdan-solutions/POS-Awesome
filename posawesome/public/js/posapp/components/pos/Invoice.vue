@@ -833,6 +833,21 @@
                 >{{ __('Print Draft') }}</v-btn
               >
             </v-col>
+            <v-col
+              cols="6"
+              class="pa-1"
+            >
+              <v-text-field
+                :value="formtCurrency(total_last_incoming_rate)"
+                :label="frappe._('Total Incoming Rate')"
+                outlined
+                dense
+                color="warning"
+                readonly
+                hide-details
+                :prefix="pos_profile.currency"
+              ></v-text-field>
+            </v-col>
           </v-row>
         </v-col>
       </v-row>
@@ -951,6 +966,14 @@ export default {
       let sum = 0;
       this.items.forEach((item) => {
         sum += item.qty * item.discount_amount;
+      });
+      return flt(sum).toFixed(this.float_precision);
+    },
+    total_last_incoming_rate() {
+      let sum = 0;
+      this.items.forEach((item) => {
+        console.log(item)
+        sum += item.inc_rate;
       });
       return flt(sum).toFixed(this.float_precision);
     },
@@ -1134,6 +1157,7 @@ export default {
       this.posa_coupons = [];
       this.return_doc = '';
       const doc = this.get_invoice_doc();
+      console.log(doc)
       if (doc.name) {
         old_invoice = this.update_invoice(doc);
       } else {
@@ -1204,6 +1228,7 @@ export default {
       doc.customer = this.customer;
       doc.items = this.get_invoice_items();
       doc.total = this.subtotal;
+      doc.total_lir = this.total_last_incoming_rate;
       doc.discount_amount = flt(this.discount_amount);
       doc.additional_discount_percentage = flt(
         this.additional_discount_percentage

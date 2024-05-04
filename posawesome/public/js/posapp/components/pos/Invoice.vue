@@ -972,8 +972,7 @@ export default {
     total_last_incoming_rate() {
       let sum = 0;
       this.items.forEach((item) => {
-        console.log(item)
-        sum += item.inc_rate;
+        sum += item.qty * item.inc_rate;
       });
       return flt(sum).toFixed(this.float_precision);
     },
@@ -1157,7 +1156,6 @@ export default {
       this.posa_coupons = [];
       this.return_doc = '';
       const doc = this.get_invoice_doc();
-      console.log(doc)
       if (doc.name) {
         old_invoice = this.update_invoice(doc);
       } else {

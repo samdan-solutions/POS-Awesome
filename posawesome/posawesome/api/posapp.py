@@ -145,8 +145,7 @@ def get_items(pos_profile, price_list=None):
             has_batch_no,
             has_serial_no,
             max_discount,
-            brand,
-            rack_location
+            brand
         FROM
             `tabItem`
         WHERE
@@ -809,6 +808,14 @@ def get_items_details(pos_profile, items_data):
             bin_ivr = 0
             if frappe.db.exists("Bin", {"item_code":item_code, "warehouse":warehouse}):
                 bin_ivr = frappe.get_last_doc("Bin", {"item_code":item_code, "warehouse":warehouse}).valuation_rate
+            item_doc = frappe.get_doc("Item", item_code)
+            
+            rack_location = ""
+            if item_doc.custom_sannaya_1 and frappe.db.get_value("Location", item_doc.custom_sannaya_1, "custom_pos_profile") == pos_profile.get("name"):
+                rack_location = item_doc.custom_sannaya_1
+            if item_doc.custom_sannaya_2 and frappe.db.get_value("Location", item_doc.custom_sannaya_2, "custom_pos_profile") == pos_profile.get("name"):
+                rack_location = item_doc.custom_sannaya_2
+            
             row = {}
             row.update(item)
             row.update(
@@ -822,7 +829,8 @@ def get_items_details(pos_profile, items_data):
                     "item_tax_rate" : item_tax_rate,
                     "included_in_print_rate":included_in_print_rate,
                     "inc_rate": incoming_rate,
-                    "bin_ivr":bin_ivr
+                    "bin_ivr":bin_ivr,
+                    "rack_location": rack_location
                 }
             )
 

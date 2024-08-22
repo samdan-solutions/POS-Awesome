@@ -811,9 +811,11 @@ def get_items_details(pos_profile, items_data):
             item_doc = frappe.get_doc("Item", item_code)
             
             rack_location = ""
-            if item_doc.custom_sannaya_1 and frappe.db.get_value("Location", item_doc.custom_sannaya_1, "custom_pos_profile") == pos_profile.get("name"):
+            is_location = frappe.db.get_value("POS Profile", pos_profile.get("name"), "custom_location")
+            is_location_1 = frappe.db.get_value("POS Profile", pos_profile.get("name"), "custom_location_1")
+            if is_location:
                 rack_location = item_doc.custom_sannaya_1
-            if item_doc.custom_sannaya_2 and frappe.db.get_value("Location", item_doc.custom_sannaya_2, "custom_pos_profile") == pos_profile.get("name"):
+            elif is_location_1:
                 rack_location = item_doc.custom_sannaya_2
             
             row = {}

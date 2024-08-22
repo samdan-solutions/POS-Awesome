@@ -38,6 +38,7 @@ doctype_js = {
     "POS Profile": "posawesome/api/pos_profile.js",
     "Sales Invoice": "posawesome/api/invoice.js",
     "Company": "posawesome/api/company.js",
+    "Location": "public/js/location.js"
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -254,7 +255,10 @@ fixtures = [
                     "Item-custom_alternative_items_",
                     "Location-custom_pos_profile",
                     "Item-custom_sannaya_1",
-                    "Item-custom_sannaya_2"
+                    "Item-custom_sannaya_2",
+                    "POS Profile-custom_location_settings",
+                    "POS Profile-custom_location",
+                    "POS Profile-custom_location_1"
                 ),
             ]
         ],

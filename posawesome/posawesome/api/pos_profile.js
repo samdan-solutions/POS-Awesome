@@ -9,4 +9,14 @@ frappe.ui.form.on('POS Profile', {
             };
         });
     },
+    custom_location(frm){
+        if(frm.doc.custom_location){
+            frm.set_value("custom_location_1", false)
+        }
+    },
+    custom_location_1(frm){
+        if(frm.doc.custom_location_1){
+            frm.set_value("custom_location", false)
+        }
+    }
 });

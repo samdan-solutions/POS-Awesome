@@ -19,6 +19,7 @@ def validate(doc, method):
     set_patient(doc)
     auto_set_delivery_charges(doc)
     calc_delivery_charges(doc)
+    set_rack_location(doc)
 
 
 def before_submit(doc, method):
@@ -242,3 +243,16 @@ def calc_delivery_charges(doc):
 
     if calculate_taxes_and_totals:
         doc.calculate_taxes_and_totals()
+
+
+def set_rack_location(doc):
+    if not doc.pos_profile:
+        return
+    is_location = frappe.db.get_value("POS Profile", doc.pos_profile, "custom_location")
+    is_location_1 = frappe.db.get_value("POS Profile", doc.pos_profile, "custom_location_1")
+    for i in doc.items:
+        item_doc = frappe.get_doc("Item", i.item_code)
+        if is_location:
+            i.rack_location = item_doc.custom_sannaya_1
+        elif is_location_1:
+            i.rack_location = item_doc.custom_sannaya_2

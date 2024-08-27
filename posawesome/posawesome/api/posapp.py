@@ -246,7 +246,7 @@ def get_items(pos_profile, price_list=None):
                         "serial_no_data": serial_no_data or [],
                         "attributes": attributes or "",
                         "item_attributes": item_attributes or "",
-                        "inc_rate": incoming_rate,
+                        "inc_rate": incoming_rate or bin_ivr,
                         "bin_ivr":bin_ivr
                     }
                 )
@@ -830,7 +830,7 @@ def get_items_details(pos_profile, items_data):
                     "has_serial_no": has_serial_no,
                     "item_tax_rate" : item_tax_rate,
                     "included_in_print_rate":included_in_print_rate,
-                    "inc_rate": incoming_rate,
+                    "inc_rate": incoming_rate or bin_ivr,
                     "bin_ivr":bin_ivr,
                     "rack_location": rack_location
                 }

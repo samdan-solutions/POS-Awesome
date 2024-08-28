@@ -258,7 +258,8 @@ fixtures = [
                     "Item-custom_sannaya_2",
                     "POS Profile-custom_location_settings",
                     "POS Profile-custom_location",
-                    "POS Profile-custom_location_1"
+                    "POS Profile-custom_location_1",
+                    "Sales Invoice Item-rack_location"
                 ),
             ]
         ],
